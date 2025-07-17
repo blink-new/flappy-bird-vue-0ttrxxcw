@@ -16,10 +16,11 @@ interface Pipe {
 
 const BIRD_SIZE = 40
 const PIPE_WIDTH = 80
-const PIPE_GAP = 200
-const GRAVITY = 0.6
-const JUMP_FORCE = -12
+const PIPE_GAP = 220
+const GRAVITY = 0.8
+const JUMP_FORCE = -8
 const PIPE_SPEED = 3
+const MAX_VELOCITY = 10
 const GAME_HEIGHT = 600
 const GAME_WIDTH = 800
 
@@ -89,10 +90,11 @@ export default function FlappyBird() {
     if (gameState !== 'playing') return
 
     setBird(prev => {
+      const newVelocity = Math.min(prev.velocity + GRAVITY, MAX_VELOCITY)
       const newBird = {
         ...prev,
-        y: prev.y + prev.velocity,
-        velocity: prev.velocity + GRAVITY
+        y: prev.y + newVelocity,
+        velocity: newVelocity
       }
 
       return newBird
