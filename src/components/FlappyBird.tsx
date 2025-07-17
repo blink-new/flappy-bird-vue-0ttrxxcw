@@ -123,12 +123,20 @@ export default function FlappyBird() {
 
   // Game loop effect
   useEffect(() => {
+    const runGameLoop = () => {
+      if (gameState === 'playing') {
+        gameLoop()
+        gameLoopRef.current = requestAnimationFrame(runGameLoop)
+      }
+    }
+
     if (gameState === 'playing') {
-      gameLoopRef.current = requestAnimationFrame(gameLoop)
-      return () => {
-        if (gameLoopRef.current) {
-          cancelAnimationFrame(gameLoopRef.current)
-        }
+      gameLoopRef.current = requestAnimationFrame(runGameLoop)
+    }
+
+    return () => {
+      if (gameLoopRef.current) {
+        cancelAnimationFrame(gameLoopRef.current)
       }
     }
   }, [gameState, gameLoop])
